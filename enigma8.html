@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Atto 8 - Il Labirinto</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 8: Il Labirinto del Destino</h1>
+        <p>A volte la vita è un labirinto. Guidami fino a te, ma fai in fretta... il tempo scorre!</p>
+        
+        <div id="timer" class="feedback">Tempo: 60</div>
+
+        <div id="maze-container">
+            <div id="player"></div>
+            <div id="fog-of-war"></div>
+            <div id="goal">❤</div>
+        </div>
+
+        <div id="maze-controls">
+            <button class="maze-btn" id="btn-up">▲</button>
+            <button class="maze-btn" id="btn-down">▼</button>
+            <button class="maze-btn" id="btn-left">◄</button>
+            <button class="maze-btn" id="btn-right">►</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- IMPOSTAZIONI DEL GIOCO ---
+            const mazeContainer = document.getElementById('maze-container');
+            const player = document.getElementById('player');
+            const goal = document.getElementById('goal');
+            const fog = document.getElementById('fog-of-war');
+            const timerElement = document.getElementById('timer');
+            const cellSize = 50; // Corrisponde alla nuova dimensione nel CSS
+
+            // Una mappa 7x7 SEMPLICE e VISIBILMENTE RISOLVIBILE
+            const mazeLayout = [
+                ['P', 0, 1, 1, 1, 1, 1],
+                [1, 0, 1, 0, 0, 0, 1],
+                [1, 0, 0, 0, 1, 0, 1],
+                [1, 1, 1, 1, 1, 0, 1],
+                [1, 0, 0, 0, 1, 0, 1],
+                [1, 0, 1, 0, 0, 0, 'G'],
+                [1, 1, 1, 1, 1, 1, 1]
+            ];
+
+            let playerPos = { row: 0, col: 0 };
+            let goalPos = { row: 0, col: 0 };
+            let timeLeft = 60; // Diamo più tempo per sicurezza
+            let timerInterval;
+            let gameStarted = false;
+
+            // --- FUNZIONI DEL GIOCO ---
+            function createMaze() {
+                mazeLayout.forEach((row, rowIndex) => {
+                    row.forEach((cell, colIndex) => {
+                        if (cell === 1) {
+                            const wall = document.createElement('div');
+                            wall.classList.add('maze-wall');
+                            wall.style.gridRowStart = rowIndex + 1;
+                            wall.style.gridColumnStart = colIndex + 1;
+                            mazeContainer.appendChild(wall);
+                        } else if (cell === 'P') { playerPos = { row: rowIndex, col: colIndex };
+                        } else if (cell === 'G') { goalPos = { row: rowIndex, col: colIndex }; }
+                    });
+                });
+                updatePlayerPosition();
+                goal.style.top = `${goalPos.row * cellSize}px`;
+                goal.style.left = `${goalPos.col * cellSize}px`;
+            }
+            function updatePlayerPosition() {
+                const playerX = playerPos.col * cellSize + cellSize / 2;
+                const playerY = playerPos.row * cellSize + cellSize / 2;
+                player.style.top = `${playerPos.row * cellSize + (cellSize * 0.15)}px`;
+                player.style.left = `${playerPos.col * cellSize + (cellSize * 0.15)}px`;
+                if(fog) { fog.style.background = `radial-gradient(circle at ${playerX}px ${playerY}px, transparent 0, transparent 80px, rgba(0,0,0,0.95) 150px)`; }
+            }
+            function startTimer() {
+                if(gameStarted) return;
+                gameStarted = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerElement.textContent = `Tempo: ${timeLeft}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        alert('Tempo scaduto! Riprova!');
+                        location.reload();
+                    }
+                }, 1000);
+            }
+            function movePlayer(dx, dy) {
+                startTimer();
+                const newRow = playerPos.row + dy;
+                const newCol = playerPos.col + dx;
+                if (newRow >= 0 && newRow < mazeLayout.length && newCol >= 0 && newCol < mazeLayout[0].length && mazeLayout[newRow][newCol] !== 1) {
+                    playerPos.row = newRow;
+                    playerPos.col = newCol;
+                    updatePlayerPosition();
+                    checkWinCondition();
+                }
+            }
+            function checkWinCondition() {
+                if (playerPos.row === goalPos.row && playerPos.col === goalPos.col) {
+                    clearInterval(timerInterval);
+                    document.querySelectorAll('.maze-btn').forEach(b => b.disabled = true);
+                    player.style.background = '#5cb85c';
+                    if(fog) { fog.style.background = 'transparent'; }
+                    alert('Ce l\'hai fatta! Mi hai raggiunto!');
+                    setTimeout(() => { window.location.href = 'Ricordo8.html'; }, 1500);
+                }
+            }
+            // --- GESTIONE INPUT ---
+            document.getElementById('btn-up').addEventListener('click', () => movePlayer(0, -1));
+            document.getElementById('btn-down').addEventListener('click', () => movePlayer(0, 1));
+            document.getElementById('btn-left').addEventListener('click', () => movePlayer(-1, 0));
+            document.getElementById('btn-right').addEventListener('click', () => movePlayer(1, 0));
+            document.addEventListener('keydown', (e) => {
+                e.preventDefault();
+                switch (e.key) {
+                    case 'ArrowUp': movePlayer(0, -1); break;
+                    case 'ArrowDown': movePlayer(0, 1); break;
+                    case 'ArrowLeft': movePlayer(-1, 0); break;
+                    case 'ArrowRight': movePlayer(1, 0); break;
+                }
+            });
+            // --- INIZIALIZZAZIONE ---
+            createMaze();
+        });
+    </script>
+</body>
+</html>

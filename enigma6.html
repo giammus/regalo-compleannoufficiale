@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atto 6 - L'Occhio di Falco</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 6: L'Occhio di Falco</h1>
+        <p>Guarda attentamente. Ci sono 5 differenze tra le due immagini. Trovale tutte!</p>
+        
+        <div class="find-differences-game">
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <img src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/IMG-20231107-WA0033.jpg?v=1749854500180" alt="Originale">
+                </div>
+                <div class="image-wrapper" id="modified-image-wrapper">
+                    <img src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/IMG-20231107-WA0033(1)(2).jpg?v=1749854521347" alt="Modificata">
+                    
+                    <div class="diff-hotspot" style="top: 51.4%; left: 8.3%; width: 16.6%; height: 5.2%;"><div class="found-circle hidden"></div></div>
+                    
+                    <div class="diff-hotspot" style="top: 18.9%; left: 75.2%; width: 4.5%; height: 4.2%;"><div class="found-circle hidden"></div></div>
+                    
+                    <div class="diff-hotspot" style="top: 83.3%; left: 85.0%; width: 9.8%; height: 6.5%;"><div class="found-circle hidden"></div></div>
+                    
+                    <div class="diff-hotspot" style="top: 62.5%; left: 34.2%; width: 14.6%; height: 5.2%;"><div class="found-circle hidden"></div></div>
+                    
+                    <div class="diff-hotspot" style="top: 72.9%; left: 38.1%; width: 6.8%; height: 10.4%;"><div class="found-circle hidden"></div></div>
+                </div>
+            </div>
+            <p id="counter" class="feedback">Differenze trovate: 0 / 5</p>
+        </div>
+    </div>
+    <script src="/enigma6.js"></script>
+</body>
+</html>

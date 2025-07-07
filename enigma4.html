@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <title>Atto 4 - Parole Sparse</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 4: Le Parole</h1>
+        <p>mi sembrava divertente questa cosa,molto spesso ci spezziamo, ma riusciamo sempre a mettere ordine nel disordine.</p>
+
+        <div id="solution-container" class="words-container">
+            <div class="drop-zone" data-target-id="word-1"></div>
+            <div class="drop-zone" data-target-id="word-2"></div>
+            <div class="drop-zone" data-target-id="word-3"></div>
+            <div class="drop-zone" data-target-id="word-4"></div>
+            <div class="drop-zone" data-target-id="word-5"></div>
+        </div>
+
+        <hr style="margin: 30px 0;">
+
+        <div id="scramble-container" class="words-container">
+            <div class="word-box" id="word-3" draggable="true">LA</div>
+            <div class="word-box" id="word-5" draggable="true">BAGOLINA</div>
+            <div class="word-box" id="word-1" draggable="true">TU</div>
+            <div class="word-box" id="word-4" draggable="true">MIA</div>
+            <div class="word-box" id="word-2" draggable="true">SEI</div>
+        </div>
+
+        <p id="feedback-message" class="feedback"></p>
+    </div>
+    
+    <script src="/enigma4.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio del Cartografo</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f0f0; padding: 20px; }
+        canvas { border: 2px dashed #ccc; cursor: crosshair; }
+        #coords-display { font-size: 1.5em; font-weight: bold; color: #d9534f; min-height: 1.5em; }
+        #output-box { width: 100%; height: 200px; font-family: monospace; font-size: 14px; margin-top: 20px; }
+        button { font-size: 1em; padding: 10px 15px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Studio del Cartografo 🗺️</h1>
+    <p>Questo strumento è solo per te. Usalo per trovare le coordinate dei punti per i tuoi enigmi.</p>
+    
+    <p><b>1. Scegli l'immagine del disegno che vuoi usare:</b></p>
+    <input type="file" id="image-loader" accept="image/*">
+
+    <p><b>2. Tocca l'immagine qui sotto per registrare i punti in ordine:</b></p>
+    <canvas id="image-canvas"></canvas>
+    
+    <p>Ultime coordinate registrate: <b id="coords-display">(nessuna)</b></p>
+    <button id="undo-btn">Annulla ultimo punto</button>
+
+    <p><b>3. Copia la lista completa da qui sotto:</b></p>
+    <textarea id="output-box" readonly></textarea>
+
+    <script>
+        const imageLoader = document.getElementById('image-loader');
+        const canvas = document.getElementById('image-canvas');
+        const ctx = canvas.getContext('2d');
+        const coordsDisplay = document.getElementById('coords-display');
+        const outputBox = document.getElementById('output-box');
+        const undoBtn = document.getElementById('undo-btn');
+
+        let points = [];
+        let loadedImage = null;
+
+        imageLoader.addEventListener('change', (e) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    loadedImage = img;
+                    redrawCanvas();
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        canvas.addEventListener('click', (e) => {
+            if (!loadedImage) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+
+            points.push({ x, y });
+            redrawCanvas();
+            updateOutput();
+        });
+
+        undoBtn.addEventListener('click', () => {
+            if (points.length > 0) {
+                points.pop();
+                redrawCanvas();
+                updateOutput();
+            }
+        });
+
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (loadedImage) {
+                ctx.drawImage(loadedImage, 0, 0);
+            }
+            points.forEach((point, index) => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+                ctx.font = '16px Arial';
+                ctx.fillStyle = 'yellow';
+                ctx.fillText(index + 1, point.x + 8, point.y + 5);
+            });
+        }
+
+        function updateOutput() {
+            if (points.length > 0) {
+                const lastPoint = points[points.length - 1];
+                coordsDisplay.textContent = `x: ${lastPoint.x}, y: ${lastPoint.y}`;
+            } else {
+                coordsDisplay.textContent = '(nessuna)';
+            }
+            const outputString = points.map(p => `{ x: ${p.x}, y: ${p.y} }`).join(',\n');
+            outputBox.value = 'const dots = [\n' + outputString + '\n];';
+        }
+    </script>
+</body>
+</html>
