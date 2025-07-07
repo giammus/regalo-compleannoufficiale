@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Atto 10 - La Stanza del Ricordo Perduto</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 10: La Stanza del Ricordo Perduto</h1>
+        <p>In questa stanza si nascondono gli indizi di un tuo momento felice.</p>
+
+        <div id="mystery-room-container">
+            <img src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/IMG-20250706-WA0025.jpg?v=1751817563748" class="room-image" alt="Scena del mistero">
+            
+            <div class="hotspot" style="top: 17.3%; left: 0.9%; width: 13.9%; height: 16%;" 
+                 data-clue-id="clue1" data-clue-src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/Screenshot_20250706_183150_Photo%20Editor.jpg?v=1751820113097"></div>
+            
+            <div class="hotspot" style="top: 5.6%; left: 25.0%; width: 11.1%; height: 26.5%;" 
+                 data-clue-id="clue2" data-clue-src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/Screenshot_20250706_183530_Photo%20Editor(1).jpg?v=1751820084921"></div>
+
+            <div class="hotspot" style="top: 69.1%; left: 41.7%; width: 20.4%; height: 17.3%;" 
+                 data-clue-id="clue3" data-clue-src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/Screenshot_20250706_183530_Photo%20Editor(2).jpg?v=1751820066091"></div>
+
+            <div class="hotspot" style="top: 87.6%; left: 69.4%; width: 6.5%; height: 7.4%;" 
+                 data-clue-id="clue4" data-clue-src="https://cdn.glitch.global/79fd8c20-2d9d-4c95-836d-51f4af298d9b/Screenshot_20250706_183848_Photo%20Editor(1).jpg?v=1751820043043"></div>
+        </div>
+
+        <div id="inventory-bar">
+            <h4>INDAGINE:</h4>
+            <div id="inventory-slots"></div>
+        </div>
+
+        <div id="final-puzzle" class="hidden">
+            <p>Ho tutti gli indizi! il motivo per cui ero cosi raggiante era...</p>
+            <div class="answer-container">
+                <input type="text" id="final-answer-input" placeholder="Scrivi la soluzione...">
+                <button id="solve-mystery-btn" class="button">Risolvi</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/enigma10.js"></script>
+</body>
+</html>

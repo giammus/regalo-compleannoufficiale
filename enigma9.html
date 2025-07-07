@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Atto 9 - Le Costellazioni Nascoste</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 9: Le Costellazioni Nascoste</h1>
+        <p>Solo tu conosci la forma di questa costellazione. Unisci i punti in ordine. Le linee appariranno solo alla fine, come per magia. Hai 5 minuti!</p>
+        
+        <div id="timer" class="feedback">Tempo: 5:00</div>
+
+        <div class="canvas-container">
+            <canvas id="constellation-canvas"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- IMPOSTAZIONI ---
+            const canvas = document.getElementById('constellation-canvas');
+            const ctx = canvas.getContext('2d');
+            const timerElement = document.getElementById('timer');
+            
+            // Imposta le dimensioni della tela (devono corrispondere all'immagine originale che hai usato)
+            canvas.width = 2200; // Esempio: modifica con la larghezza reale
+            canvas.height = 3100; // Esempio: modifica con l'altezza reale
+
+            // =================================================================================
+            //   !!! AZIONE RICHIESTA !!!
+            //   SOSTITUISCI QUESTI PUNTI DI ESEMPIO CON LA TUA LISTA DA 125 PUNTI
+            //   Copia la lista intera che hai generato con lo strumento "trova-coordinate.html"
+            //   e incollala qui, sostituendo l'array esistente.
+            // =================================================================================
+            const dots = [
+{ x: 634, y: 2652 },
+{ x: 473, y: 2835 },
+{ x: 684, y: 3001 },
+{ x: 1054, y: 3059 },
+{ x: 1483, y: 3042 },
+{ x: 1867, y: 2973 },
+{ x: 2129, y: 2851 },
+{ x: 1973, y: 2586 },
+{ x: 1709, y: 2526 },
+{ x: 1657, y: 2469 },
+{ x: 1750, y: 2325 },
+{ x: 1793, y: 2221 },
+{ x: 1785, y: 2112 },
+{ x: 1707, y: 2010 },
+{ x: 1657, y: 1934 },
+{ x: 1640, y: 1903 },
+{ x: 1530, y: 1878 },
+{ x: 1420, y: 1891 },
+{ x: 1443, y: 1930 },
+{ x: 1528, y: 1924 },
+{ x: 1391, y: 1961 },
+{ x: 1431, y: 1994 },
+{ x: 1546, y: 2002 },
+{ x: 1634, y: 2007 },
+{ x: 1560, y: 2027 },
+{ x: 1529, y: 2062 },
+{ x: 1472, y: 2104 },
+{ x: 1515, y: 2130 },
+{ x: 1576, y: 2089 },
+{ x: 1677, y: 2088 },
+{ x: 1717, y: 2115 },
+{ x: 1598, y: 2157 },
+{ x: 1622, y: 2192 },
+{ x: 1687, y: 2189 },
+{ x: 1737, y: 2227 },
+{ x: 1237, y: 2285 },
+{ x: 1249, y: 2235 },
+{ x: 1248, y: 2191 },
+{ x: 1261, y: 2167 },
+{ x: 1284, y: 2128 },
+{ x: 1268, y: 2059 },
+{ x: 1268, y: 1982 },
+{ x: 1267, y: 1921 },
+{ x: 1329, y: 2030 },
+{ x: 1375, y: 2007 },
+{ x: 1462, y: 1870 },
+{ x: 1499, y: 1776 },
+{ x: 1532, y: 1716 },
+{ x: 1525, y: 1759 },
+{ x: 1504, y: 1826 },
+{ x: 1532, y: 1803 },
+{ x: 1552, y: 1747 },
+{ x: 1564, y: 1714 },
+{ x: 1575, y: 1768 },
+{ x: 1548, y: 1829 },
+{ x: 1527, y: 1865 },
+{ x: 1230, y: 2068 },
+{ x: 1205, y: 2051 },
+{ x: 1187, y: 2040 },
+{ x: 1164, y: 2034 },
+{ x: 1140, y: 2050 },
+{ x: 1123, y: 2066 },
+{ x: 1083, y: 2041 },
+{ x: 1030, y: 2020 },
+{ x: 995, y: 1982 },
+{ x: 982, y: 1958 },
+{ x: 948, y: 1931 },
+{ x: 931, y: 1921 },
+{ x: 931, y: 1879 },
+{ x: 902, y: 1857 },
+{ x: 868, y: 1807 },
+{ x: 829, y: 1759 },
+{ x: 786, y: 1705 },
+{ x: 795, y: 1733 },
+{ x: 802, y: 1759 },
+{ x: 825, y: 1779 },
+{ x: 825, y: 1800 },
+{ x: 799, y: 1783 },
+{ x: 785, y: 1756 },
+{ x: 767, y: 1712 },
+{ x: 752, y: 1754 },
+{ x: 773, y: 1803 },
+{ x: 790, y: 1843 },
+{ x: 932, y: 1995 },
+{ x: 979, y: 2030 },
+{ x: 1046, y: 2067 },
+{ x: 1088, y: 2098 },
+{ x: 1112, y: 2125 },
+{ x: 1118, y: 2149 },
+{ x: 1111, y: 2175 },
+{ x: 1120, y: 2204 },
+{ x: 1131, y: 2224 },
+{ x: 1136, y: 2269 },
+{ x: 1176, y: 2307 },
+{ x: 1048, y: 1459 },
+{ x: 1072, y: 1499 },
+{ x: 1134, y: 1526 },
+{ x: 1198, y: 1528 },
+{ x: 1259, y: 1512 },
+{ x: 1294, y: 1482 },
+{ x: 1322, y: 1457 },
+{ x: 1332, y: 1434 },
+{ x: 1308, y: 1438 },
+{ x: 1262, y: 1468 },
+{ x: 1201, y: 1490 },
+{ x: 1155, y: 1489 },
+{ x: 1105, y: 1478 },
+{ x: 1058, y: 1435 },
+{ x: 1050, y: 1421 },
+{ x: 1136, y: 1421 },
+{ x: 1211, y: 1425 },
+{ x: 1296, y: 1420 },
+{ x: 1177, y: 1398 },
+{ x: 1268, y: 1302 },
+{ x: 1310, y: 1333 },
+{ x: 1335, y: 1370 },
+{ x: 1361, y: 1408 },
+{ x: 1004, y: 1404 },
+{ x: 1035, y: 1364 },
+{ x: 1066, y: 1324 },
+{ x: 1108, y: 1342 },
+{ x: 1155, y: 1368 },
+{ x: 1196, y: 1370 },
+{ x: 1236, y: 1348 },
+{ x: 1248, y: 1286 }
+];
+
+            let currentDot = 0;
+            let timeLeft = 300; // 300 secondi = 5 minuti
+            let timerInterval;
+            let gameStarted = false;
+
+            // --- FUNZIONI GRAFICHE ---
+            function drawDots() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                dots.forEach((dot, index) => {
+                    ctx.beginPath();
+                    ctx.arc(dot.x, dot.y, 5, 0, Math.PI * 2);
+                    // Il punto corrente da trovare è evidenziato in giallo, gli altri sono bianchi
+                    ctx.fillStyle = (index === currentDot) ? 'yellow' : 'white';
+                    ctx.fill();
+                    // Scrive il numero accanto al punto
+                    ctx.font = '14px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(index + 1, dot.x + 8, dot.y + 5);
+                });
+            }
+
+            function drawFinalImage() {
+                ctx.strokeStyle = '#5cb85c'; // Colore verde per le linee finali
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(dots[0].x, dots[0].y);
+                for (let i = 1; i < dots.length; i++) {
+                    ctx.lineTo(dots[i].x, dots[i].y);
+                }
+                ctx.stroke();
+            }
+
+            // --- FUNZIONI DI GIOCO ---
+            function startTimer() {
+                if (gameStarted) return;
+                gameStarted = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerElement.textContent = `Tempo: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        alert('Tempo scaduto! La costellazione non si è rivelata...');
+                        location.reload();
+                    }
+                }, 1000);
+            }
+
+            function handleCanvasClick(event) {
+                if (currentDot >= dots.length) return; // Gioco già finito
+                startTimer();
+
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                const targetDot = dots[currentDot];
+                const distance = Math.sqrt(Math.pow(mouseX - targetDot.x, 2) + Math.pow(mouseY - targetDot.y, 2));
+
+                // Se il click è abbastanza vicino al punto corretto
+                if (distance < 15) { // 15px di tolleranza
+                    currentDot++;
+                    drawDots(); // Ridisegna i punti per aggiornare il colore del prossimo punto target
+
+                    // Controlla la vittoria
+                    if (currentDot === dots.length) {
+                        clearInterval(timerInterval);
+                        timerElement.textContent = "Costellazione Completa!";
+                        drawFinalImage(); // RIVELA IL DISEGNO!
+                        setTimeout(() => {
+                            window.location.href = 'Ricordo9.html';
+                        }, 4000); // Pausa più lunga per ammirare il disegno
+                    }
+                }
+            }
+
+            // --- INIZIALIZZAZIONE ---
+            canvas.addEventListener('click', handleCanvasClick);
+            drawDots(); // Disegna lo stato iniziale
+        });
+    </script>
+</body>
+</html>

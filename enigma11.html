@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" /><title>Atto 11 - La Scatola dei Segreti</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Atto 11: La Scatola dei Segreti</h1>
+        <p>Il nostro passato ha forgiato la chiave. Trova la combinazione per svelare il prossimo ricordo.</p>
+
+        <div id="puzzle-box">
+            <div class="lock-section" id="dials-lock">
+                <div class="dial" data-dial-id="0">0</div>
+                <div class="dial" data-dial-id="1">0</div>
+                <div class="dial" data-dial-id="2">0</div>
+                <div class="dial" data-dial-id="3">0</div>
+            </div>
+            <div class="lock-section" id="levers-lock">
+                <div class="lever" data-lever-id="0"></div>
+                <div class="lever" data-lever-id="1"></div>
+                <div class="lever" data-lever-id="2"></div>
+            </div>
+            <div class="lock-section" id="slider-lock">
+                <input type="range" id="secret-slider" min="1" max="31" value="16">
+                <div id="slider-value">16</div>
+            </div>
+        </div>
+        <button id="unlock-btn" class="button">Prova ad Aprire</button>
+    </div>
+    <script src="/enigma11.js"></script>
+</body>
+</html>
